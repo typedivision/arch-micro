@@ -1,0 +1,6 @@
+image: archlinux/base:latest
+
+build-rootfs:
+  stage: build
+  script:
+    - echo "Do your build here"
