@@ -1,6 +1,7 @@
 image: archlinux/base:latest
 
-build-rootfs:
+build-docker:
   stage: build
   script:
-    - echo "Do your build here"
+    - pacman -Sy --noconfirm make
+    - make docker-push
