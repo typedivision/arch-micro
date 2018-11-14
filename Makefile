@@ -15,6 +15,7 @@ docker-rootfs:
 	pacman -Sy --noconfirm --needed arch-install-scripts
 	env -i pacstrap -C pacman.conf -c -d -G -M $(TMPDIR) $$(cat packages)
 	cp pacman.conf $(TMPDIR)/etc/pacman.conf
+	sed '\|NoExtract.*/lib|d; \|NoExtract.*/include|d' -i $(TMPDIR)/etc/pacman.conf
 	cp -r rootfs/* $(TMPDIR)/
 	arch-chroot $(TMPDIR) locale-gen
 	arch-chroot $(TMPDIR) pacman-key --init
