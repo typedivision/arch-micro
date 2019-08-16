@@ -1,7 +1,0 @@
-image: archlinux/base:latest
-
-build-docker:
-  stage: build
-  script:
-    - pacman -Sy --noconfirm make
-    - make docker-push

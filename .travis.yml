@@ -1,0 +1,14 @@
+dist: bionic
+
+language: bash
+
+script:
+  - docker run --rm --privileged -v /run/docker.sock:/run/docker.sock
+    -v $PWD:/build -e TRAVIS_BRANCH archlinux/base
+    sh -c 'pacman -Syu --noconfirm make && make -C /build docker-image'
+  - echo "$DOCKER_PASS" | docker login -u typedivision --password-stdin
+  - if [ "$TRAVIS_BRANCH" = master ]; then
+      docker push typedivision/arch-micro:latest;
+    else
+      docker push typedivision/arch-micro:"$TRAVIS_BRANCH";
+    fi

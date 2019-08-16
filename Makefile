@@ -1,6 +1,6 @@
 DOCKER_ID   = typedivision
 DOCKER_REPO = arch-micro
-DOCKER_TAG  = $(CI_COMMIT_REF_NAME)
+DOCKER_TAG  = $(TRAVIS_BRANCH)
 
 ifeq ($(DOCKER_TAG),)
   DOCKER_TAG := $(shell git rev-parse --short HEAD)
@@ -27,7 +27,3 @@ docker-image: docker-rootfs
 	pacman -Sy --noconfirm --needed docker
 	docker rmi $(DOCKER_ID)/$(DOCKER_REPO):$(DOCKER_TAG) || true
 	docker build -t $(DOCKER_ID)/$(DOCKER_REPO):$(DOCKER_TAG) .
-
-docker-push: docker-image
-	echo $$DOCKER_PASS | docker login -u $(DOCKER_ID) --password-stdin
-	docker push $(DOCKER_ID)/$(DOCKER_REPO):$(DOCKER_TAG)
